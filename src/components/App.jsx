@@ -10,6 +10,8 @@ export class App extends Component {
     filter: '',
   };
 
+  componentDidMount() {}
+
   handleSubmit = idInputName => {
     const isExist = this.state.contacts.find(
       contact => contact.name.toLowerCase() === idInputName.name.toLowerCase()

@@ -3,6 +3,9 @@ import { Form } from './Form/Form';
 import { Section } from './Section/Section';
 import { ContactsList } from './ContactsList/ContactsList';
 import { Filter } from './Filter/Filter';
+import localstorage from '../helpers/storage';
+
+const LOCAL_STORAGE_KEY = 'contacts';
 
 export class App extends Component {
   state = {
@@ -10,7 +13,19 @@ export class App extends Component {
     filter: '',
   };
 
-  componentDidMount() {}
+  componentDidMount() {
+    const lsContacts = localstorage.load(LOCAL_STORAGE_KEY);
+    if (lsContacts) {
+      this.setState({ contacts: lsContacts });
+    }
+  }
+
+  componentDidUpdate(_, prevState) {
+    const { contacts } = this.state;
+    if (prevState.contacts !== contacts) {
+      localstorage.save(LOCAL_STORAGE_KEY, contacts);
+    }
+  }
 
   handleSubmit = idInputName => {
     const isExist = this.state.contacts.find(
@@ -24,7 +39,6 @@ export class App extends Component {
     this.setState(prevState => ({
       contacts: [...prevState.contacts, idInputName],
     }));
-    console.log(idInputName);
   };
 
   handleDeleteContact = idContact => {

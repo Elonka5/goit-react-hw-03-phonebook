@@ -16,7 +16,10 @@ const load = key => {
   }
 };
 
-export default {
-  save,
-  load,
-};
+export default Object.assign(
+  {},
+  {
+    save,
+    load,
+  }
+);
